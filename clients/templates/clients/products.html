@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Smart Inventory - Products</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background-color: #222;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header a {
+            color: white;
+            text-decoration: none;
+            margin-left: 15px;
+            font-size: 14px;
+        }
+
+        .container {
+            width: 90%;
+            margin: 30px auto;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .product-card {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+            text-align: center;
+        }
+
+        .product-card img {
+            height: 180px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .brand {
+            font-size: 12px;
+            color: #777;
+        }
+
+        .name {
+            font-size: 14px;
+            font-weight: bold;
+            margin: 10px 0;
+            height: 40px;
+            overflow: hidden;
+        }
+
+        .price {
+            color: #1b8a1b;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            font-size: 13px;
+            color: #999;
+        }
+
+        .rating {
+            font-size: 13px;
+            color: #ff9900;
+            margin: 5px 0;
+        }
+
+        .view-btn {
+            display: inline-block;
+            margin-top: 8px;
+            padding: 6px 12px;
+            background-color: #007bff;
+            color: white;
+            border-radius: 4px;
+            text-decoration: none;
+            font-size: 13px;
+        }
+
+        .view-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .pagination {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            padding: 6px 10px;
+            border-radius: 4px;
+            background: #ddd;
+            color: black;
+            font-size: 13px;
+        }
+
+        .pagination .current {
+            background: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+
+<header>
+    <div><strong>Smart Inventory</strong></div>
+    <div>
+        {% if is_logged_in %}
+            <a href="{% url 'logout' %}">Logout</a>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'register' %}">Register</a>
+        {% endif %}
+    </div>
+</header>
+
+<div class="container">
+
+    <h2>Products</h2>
+
+    <div class="product-grid">
+        {% for product in products %}
+            <div class="product-card">
+
+                <img src="{{ product.image }}" alt="Product Image">
+
+                <div class="brand">{{ product.brand }}</div>
+
+                <div class="name">
+                    {{ product.name }}
+                </div>
+
+                <div class="rating">
+                    ⭐ {{ product.rating_average|default:0 }}
+                    ({{ product.rating_count|default:0 }})
+                </div>
+
+                <div class="price">
+                    ₹{{ product.discount_price }}
+                </div>
+
+                <div class="old-price">
+                    ₹{{ product.actual_price }}
+                </div>
+
+                <a href="{% url 'product_detail' product.id %}" class="view-btn">
+                    View Details
+                </a>
+
+            </div>
+        {% empty %}
+            <p>No products available.</p>
+        {% endfor %}
+    </div>
+
+    <!-- Pagination -->
+    <div class="pagination">
+        {% if current_page > 1 %}
+            <a href="?page={{ current_page|add:-1 }}">Previous</a>
+        {% endif %}
+
+        <span class="current">
+            Page {{ current_page }} of {{ total_pages }}
+        </span>
+
+        {% if current_page < total_pages %}
+            <a href="?page={{ current_page|add:1 }}">Next</a>
+        {% endif %}
+    </div>
+
+</div>
+
+</body>
+</html>
