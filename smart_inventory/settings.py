@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-ow@x(cccx$@1%!w19!gko*fxl2a6-(0l*^jh5tkt*ud))2lcyg'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = FALSE
 
 ALLOWED_HOSTS = ["smart-inventory-management-app.onrender.com"]
 
