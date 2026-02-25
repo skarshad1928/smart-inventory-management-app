@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-ow@x(cccx$@1%!w19!gko*fxl2a6-(0l*^jh5tkt*ud))2lcyg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['smart-inventory-management-yos3.onrender.com']
+ALLOWED_HOSTS = ['.onrender.com']
 
 
 # Application definition
